@@ -1,0 +1,23 @@
+[project]
+name = "whisper"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aligned-textgrid>=0.8.1",
+    "click>=8.2.1",
+    "librosa>=0.11.0",
+    "pympi-ling",
+    "torch>=2.8.0",
+    "tqdm>=4.67.1",
+    "whisperx>=3.4.2",
+]
+
+[tool.uv.sources]
+pympi-ling = { git = "https://github.com/JoFrhwld/pympi", rev = "pyproject" }
+
+[dependency-groups]
+dev = [
+    "jupyter>=1.1.1",
+]
