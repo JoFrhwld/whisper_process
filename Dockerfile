@@ -39,6 +39,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-dev
 ENV PATH="/app/.venv/bin:$PATH"
 
+RUN uv run /app/main.py . --cache cuda
 
 #ENTRYPOINT ["uv", "run", "main.py"]
 #ENTRYPOINT [ "deepFilter"]
