@@ -1,21 +1,6 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
 FROM python:3.12-slim-bookworm
 COPY --from=ghcr.io/aghcr.io/astral-sh/uv:0.8.6 /uv /uvx /bin/
-COPY --from=nvidia/cuda:11.6.1-cudnn8-runtime-ubuntu20.04 /usr/lib/x86_64-linux-gnu/libcudnn.so.8 \
-  /usr/lib/x86_64-linux-gnu/libcudnn.so.8.4.0 \
-  /usr/lib/x86_64-linux-gnu/libcudnn_adv_infer.so.8 \
-  /usr/lib/x86_64-linux-gnu/libcudnn_adv_infer.so.8.4.0 \
-  /usr/lib/x86_64-linux-gnu/libcudnn_adv_train.so.8 \
-  /usr/lib/x86_64-linux-gnu/libcudnn_adv_train.so.8.4.0 \
-  /usr/lib/x86_64-linux-gnu/libcudnn_cnn_infer.so.8 \
-  /usr/lib/x86_64-linux-gnu/libcudnn_cnn_infer.so.8.4.0 \
-  /usr/lib/x86_64-linux-gnu/libcudnn_cnn_train.so.8 \
-  /usr/lib/x86_64-linux-gnu/libcudnn_cnn_train.so.8.4.0 \
-  /usr/lib/x86_64-linux-gnu/libcudnn_ops_infer.so.8 \
-  /usr/lib/x86_64-linux-gnu/libcudnn_ops_infer.so.8.4.0 \
-  /usr/lib/x86_64-linux-gnu/libcudnn_ops_train.so.8 \
-  /usr/lib/x86_64-linux-gnu/libcudnn_ops_train.so.8.4.0 \
-  /usr/lib/x86_64-linux-gnu/
 
 RUN apt-get update && apt-get install -y \
   curl \
@@ -40,7 +25,22 @@ ENV UV_LINK_MODE=copy
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --locked --no-install-project --no-dev
+    #uv sync --locked --no-install-project --no-dev \
+    uv pip install --no-deps --index "https://download.pytorch.org/whl/cu128" \
+      "torch==2.7.1+cu128" \
+      "torchaudio" \
+      "triton" \
+      "pyannote.audio==3.3.2" \
+RUN uv add "aligned-textgrid>=0.8.1"\
+      "click>=8.2.1" \
+      "librosa>=0.11.0"\
+      "pympi-ling" \
+      "torch>=2.8.0" \
+      "tqdm>=4.67.1" \
+      "whisperx>=3.4.2"\
+      "git+https://github.com/JoFrhwld/pympi@pyproject"
+
+
 
 # Keeps Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE=1
