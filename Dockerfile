@@ -27,12 +27,18 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     uv venv
     #uv sync --locked --no-install-project --no-dev \
-RUN uv pip install --no-deps --index "https://download.pytorch.org/whl/cu128" \
+RUN  --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv pip install --no-deps --index "https://download.pytorch.org/whl/cu128" \
       "torch==2.7.1+cu128" \
       "torchaudio" \
       "triton" \
       "pyannote.audio==3.3.2" 
-RUN uv pip install "aligned-textgrid" \
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv pip install "aligned-textgrid" \
       "click" \
       "librosa"\
       "torch" \
@@ -56,7 +62,7 @@ COPY . /app
 ENV PATH="/app/.venv/bin:$PATH"
 ENV LD_LIBRARY_PATH="/venv/lib/python3.12/site-packages/nvidia/cudnn/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
 
-RUN uv run /app/main.py . --cache cuda
+#RUN uv run /app/main.py . --cache cuda
 
 #ENTRYPOINT ["uv", "run", "main.py"]
 #ENTRYPOINT [ "deepFilter"]
