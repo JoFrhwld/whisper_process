@@ -139,7 +139,7 @@ def transcribe_clips(
         s: str,
         model
     ):
-    for c in tqdm(clips):
+    for c in tqdm(clips, bar_format='{desc}: {percentage:3.0f}%'):
 
         start_idx = int(c[0]/1000 * SR)
         end_idx = int(c[1]/1000 * SR)
