@@ -26,6 +26,10 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     uv venv
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv pip install nvidia-cudnn-cu12==8.9.7.29    
     #uv sync --locked --no-install-project --no-dev \
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
@@ -62,7 +66,7 @@ COPY . /app
 # RUN --mount=type=cache,target=/root/.cache/uv \
 #     uv sync --locked --no-dev
 ENV PATH="/app/.venv/bin:$PATH"
-ENV LD_LIBRARY_PATH="/venv/lib/python3.12/site-packages/nvidia/cudnn/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
+ENV LD_LIBRARY_PATH="/app/.venv/lib/python3.12/site-packages/nvidia/cudnn/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
 
 #RUN uv run /app/main.py . --cache cuda
 
