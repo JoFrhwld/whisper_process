@@ -25,14 +25,14 @@ ENV UV_LINK_MODE=copy
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv venv
+    uv init
     #uv sync --locked --no-install-project --no-dev \
-RUN uv pip install --no-deps --index "https://download.pytorch.org/whl/cu128" \
+RUN uv add --no-deps --index "https://download.pytorch.org/whl/cu128" \
       "torch==2.7.1+cu128" \
       "torchaudio" \
       "triton" \
       "pyannote.audio==3.3.2" 
-RUN uv pip install "aligned-textgrid" \
+RUN uv add "aligned-textgrid" \
       "click" \
       "librosa"\
       "torch" \
