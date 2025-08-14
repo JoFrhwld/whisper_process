@@ -1,11 +1,27 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
 FROM python:3.12-slim-bookworm
 COPY --from=ghcr.io/aghcr.io/astral-sh/uv:0.8.6 /uv /uvx /bin/
+COPY --from=nvidia/cuda:11.6.1-cudnn8-runtime-ubuntu20.04 /usr/lib/x86_64-linux-gnu/libcudnn.so.8 \
+  /usr/lib/x86_64-linux-gnu/libcudnn.so.8.4.0 \
+  /usr/lib/x86_64-linux-gnu/libcudnn_adv_infer.so.8 \
+  /usr/lib/x86_64-linux-gnu/libcudnn_adv_infer.so.8.4.0 \
+  /usr/lib/x86_64-linux-gnu/libcudnn_adv_train.so.8 \
+  /usr/lib/x86_64-linux-gnu/libcudnn_adv_train.so.8.4.0 \
+  /usr/lib/x86_64-linux-gnu/libcudnn_cnn_infer.so.8 \
+  /usr/lib/x86_64-linux-gnu/libcudnn_cnn_infer.so.8.4.0 \
+  /usr/lib/x86_64-linux-gnu/libcudnn_cnn_train.so.8 \
+  /usr/lib/x86_64-linux-gnu/libcudnn_cnn_train.so.8.4.0 \
+  /usr/lib/x86_64-linux-gnu/libcudnn_ops_infer.so.8 \
+  /usr/lib/x86_64-linux-gnu/libcudnn_ops_infer.so.8.4.0 \
+  /usr/lib/x86_64-linux-gnu/libcudnn_ops_train.so.8 \
+  /usr/lib/x86_64-linux-gnu/libcudnn_ops_train.so.8.4.0 \
+  /usr/lib/x86_64-linux-gnu/
 
 RUN apt-get update && apt-get install -y \
   curl \
   build-essential \
-  git
+  git \
+  zlib1g
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
