@@ -25,14 +25,14 @@ ENV UV_LINK_MODE=copy
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv init
+    uv venv
     #uv sync --locked --no-install-project --no-dev \
-RUN uv add --no-deps --index "https://download.pytorch.org/whl/cu128" \
+RUN uv pip install --no-deps --index "https://download.pytorch.org/whl/cu128" \
       "torch==2.7.1+cu128" \
       "torchaudio" \
       "triton" \
       "pyannote.audio==3.3.2" 
-RUN uv add "aligned-textgrid" \
+RUN uv pip install "aligned-textgrid" \
       "click" \
       "librosa"\
       "torch" \
@@ -51,8 +51,8 @@ ENV PYTHONUNBUFFERED=1
 # Then, add the rest of the project source code and install it
 # Installing separately from its dependencies allows optimal layer caching
 COPY . /app
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --locked --no-dev
+# RUN --mount=type=cache,target=/root/.cache/uv \
+#     uv sync --locked --no-dev
 ENV PATH="/app/.venv/bin:$PATH"
 ENV LD_LIBRARY_PATH="/venv/lib/python3.12/site-packages/nvidia/cudnn/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
 
