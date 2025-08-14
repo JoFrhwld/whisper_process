@@ -32,13 +32,12 @@ RUN uv pip install --no-deps --index "https://download.pytorch.org/whl/cu128" \
       "torchaudio" \
       "triton" \
       "pyannote.audio==3.3.2" 
-RUN uv add "aligned-textgrid>=0.8.1"\
-      "click>=8.2.1" \
-      "librosa>=0.11.0"\
-      "pympi-ling" \
-      "torch>=2.8.0" \
-      "tqdm>=4.67.1" \
-      "whisperx>=3.4.2"\
+RUN uv add "aligned-textgrid" \
+      "click" \
+      "librosa"\
+      "torch" \
+      "tqdm" \
+      "whisperx"\
       "git+https://github.com/JoFrhwld/pympi@pyproject"
 
 
