@@ -32,7 +32,7 @@ RUN uv pip install --no-deps --index "https://download.pytorch.org/whl/cu128" \
       "torchaudio" \
       "triton" \
       "pyannote.audio==3.3.2" 
-RUN uv add "aligned-textgrid" \
+RUN uv pip install "aligned-textgrid" \
       "click" \
       "librosa"\
       "torch" \
