@@ -27,12 +27,14 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     uv venv
     #uv sync --locked --no-install-project --no-dev \
-RUN  --mount=type=cache,target=/root/.cache/uv \
+RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv pip install --no-deps --index "https://download.pytorch.org/whl/cu128" \
-      "torch==2.7.1+cu128" \
-      "torchaudio==2.8.0+cu128" \
+    uv pip install torch==2.7.1 torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cu126
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv pip install \
       "triton" \
       "pyannote.audio==3.3.2" 
 RUN --mount=type=cache,target=/root/.cache/uv \
