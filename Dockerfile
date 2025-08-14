@@ -32,7 +32,7 @@ RUN  --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     uv pip install --no-deps --index "https://download.pytorch.org/whl/cu128" \
       "torch==2.7.1+cu128" \
-      "torchaudio" \
+      "torchaudio==2.8.0+cu128" \
       "triton" \
       "pyannote.audio==3.3.2" 
 RUN --mount=type=cache,target=/root/.cache/uv \
